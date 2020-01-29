@@ -1,0 +1,26 @@
+{
+  "name": "htmltemplateengine",
+  "version": "1.0.0",
+  "description": "A Node based html template generator using Inquirer",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ocskier/HTMLTemplateEngine.git"
+  },
+  "author": "Jon Jackson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ocskier/HTMLTemplateEngine/issues"
+  },
+  "homepage": "https://github.com/ocskier/HTMLTemplateEngine#readme",
+  "dependencies": {
+    "inquirer": "^7.0.4"
+  }
+}
