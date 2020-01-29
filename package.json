@@ -2,13 +2,14 @@
   "name": "htmltemplateengine",
   "version": "1.0.0",
   "description": "A Node based html template generator using Inquirer",
-  "main": "app.js",
+  "main": "dist/app.js",
   "directories": {
     "lib": "lib",
     "test": "test"
   },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,9 @@
   },
   "homepage": "https://github.com/ocskier/HTMLTemplateEngine#readme",
   "dependencies": {
-    "inquirer": "^7.0.4"
+    "@types/inquirer": "^6.5.0",
+    "inquirer": "^7.0.4",
+    "typescript": "^3.7.5",
+    "typescript-require": "^0.2.10"
   }
 }
