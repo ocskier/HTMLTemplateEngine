@@ -12,7 +12,7 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 //  Creating promises
-const readFile = util.promisify(fs.readFile);
+// const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 // Main functional logic
