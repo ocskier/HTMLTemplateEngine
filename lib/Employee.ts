@@ -11,7 +11,8 @@ class Employee {
         this.email = email;
     }
     static incrementId() {
-        if (!this.newestId) this.newestId = 0
+        console.log(this.newestId);
+        if (!this.newestId && this.newestId != 0) this.newestId = 0
         else this.newestId++
         return this.newestId
     }
