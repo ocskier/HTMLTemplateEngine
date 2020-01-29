@@ -1,4 +1,4 @@
-class Employee<ConstructorTypes> {
+class Employee {
     name: string;
     id: number;
     email: string;
