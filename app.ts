@@ -17,17 +17,24 @@ const writeFile = util.promisify(fs.writeFile);
 
 // Main functional logic
 
+const init = async () => {
+    const team = ask.prompt();
+    render();
+}
+
+init();
+
 const Jon = new Engineer('Jon', 'ocskier@gmail.com', 'ocskier');
 
 async function render() {
   try {
-    const html = await ejs.renderFile("./templates/main.ejs", { data: Jon });
-    console.log(html);
-    await writeFile('dist/index.html', html, 'UTF-8');
+    const employeeHtml = await ejs.renderFile('./templates/engineer.ejs', { data: Jon });
+    const mainHtml = await ejs.renderFile('./templates/main.ejs', {data: {main: employeeHtml}});
+    console.log(mainHtml);
+    await writeFile('dist/index.html', mainHtml, 'UTF-8');
   } catch (error) {
     console.log(error);
   }
 }
-render();
 
 export{}

@@ -1,4 +1,56 @@
 <% if (data) { %>
-<h2><%= data.name %></h2>
-<h2><%= data.github %></h2>
-<% } %>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/uikit@3.3.0/dist/css/uikit.min.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <style>
+      .main {
+        height: fit-content;
+        display: flex;
+        justify-content: center;
+        margin: 50px 0 100px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="uk-navbar-container uk-margin" uk-navbar>
+      <div class="uk-navbar-center">
+        <div class="uk-navbar-left">
+          <div>
+            <ul class="uk-navbar-nav">
+              <li class="uk-active"><a href="#">Active</a></li>
+              <li>
+                <a href="#">Parent</a>
+                <div class="uk-navbar-dropdown">
+                  <ul class="uk-nav uk-navbar-dropdown-nav">
+                    <li class="uk-active"><a href="#">Active</a></li>
+                    <li><a href="#">Item</a></li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="uk-navbar-center">
+          <a class="uk-navbar-item uk-logo" href="#">Employee Directory</a>
+        </div>
+        <div class="uk-navbar-right">
+          <div>
+            <ul class="uk-navbar-nav">
+              <li><a href="#">Item</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="main"><%- data.main %></div>
+  </body>
+</html>
+<%} %>
