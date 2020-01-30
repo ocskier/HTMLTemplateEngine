@@ -18,18 +18,36 @@ const writeFile = util.promisify(fs.writeFile);
 // Main functional logic
 
 const init = async () => {
-    const team = ask.prompt();
-    render();
+    const team = await ask.prompt([
+        {
+            message: "Enter your name: ",
+            name: "name"
+        },
+        {
+            message: "Enter your email: ",
+            name: "email"
+        },
+        {
+            message: "Github Username: ",
+            name: "githubID"
+        }
+    ]);
+    const newEmployees = [];
+    newEmployees.push(new Engineer(team.name, team.email, team.githubID));
+    console.log(newEmployees);
+    render(newEmployees);
 }
 
 init();
 
-const Jon = new Engineer('Jon', 'ocskier@gmail.com', 'ocskier');
-
-async function render() {
+async function render(emp: any) {
   try {
-    const employeeHtml = await ejs.renderFile('./templates/engineer.ejs', { data: Jon });
-    const mainHtml = await ejs.renderFile('./templates/main.ejs', {data: {main: employeeHtml}});
+    let html = '';
+    for (let i = 0; i < emp.length; i++) {
+        let employeeHtml = await ejs.renderFile('./templates/engineer.ejs', { data: emp[i] });
+        html += employeeHtml;
+    }
+    const mainHtml = await ejs.renderFile('./templates/main.ejs', {data: {main: html}});
     console.log(mainHtml);
     await writeFile('dist/index.html', mainHtml, 'UTF-8');
   } catch (error) {
