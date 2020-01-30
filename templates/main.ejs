@@ -14,20 +14,30 @@
       .main {
         height: fit-content;
         display: flex;
-        justify-content: center;
-        margin: 50px 0 100px 0;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        padding: 50px 0 100px 0;
+      }
+      .white-txt {
+        color: white !important;
       }
     </style>
   </head>
-  <body>
-    <nav class="uk-navbar-container uk-margin" uk-navbar>
+  <body style="background: linear-gradient(45deg, black, transparent);">
+    <nav
+      class="uk-navbar-container uk-margin"
+      style="background: lightslategrey;"
+      uk-navbar
+    >
       <div class="uk-navbar-center">
         <div class="uk-navbar-left">
           <div>
             <ul class="uk-navbar-nav">
-              <li class="uk-active"><a href="#">Active</a></li>
+              <li class="uk-active">
+                <a href="#" class="white-txt">Active</a>
+              </li>
               <li>
-                <a href="#">Parent</a>
+                <a href="#" class="white-txt">Parent</a>
                 <div class="uk-navbar-dropdown">
                   <ul class="uk-nav uk-navbar-dropdown-nav">
                     <li class="uk-active"><a href="#">Active</a></li>
@@ -39,12 +49,14 @@
           </div>
         </div>
         <div class="uk-navbar-center">
-          <a class="uk-navbar-item uk-logo" href="#">Employee Directory</a>
+          <a class="uk-navbar-item uk-logo white-txt" href="#"
+            >Employee Directory</a
+          >
         </div>
         <div class="uk-navbar-right">
           <div>
             <ul class="uk-navbar-nav">
-              <li><a href="#">Item</a></li>
+              <li><a href="#" class="white-txt">Item</a></li>
             </ul>
           </div>
         </div>
