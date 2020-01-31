@@ -11,11 +11,17 @@
       rel="stylesheet"
     />
     <style>
-      .main {
+      .managerDiv,
+      .employeeDiv {
         height: fit-content;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-evenly;
+      }
+      .managerDiv {
+        padding: 50px 0 0 0;
+      }
+      .employeeDiv {
         padding: 50px 0 100px 0;
       }
       .white-txt {
@@ -62,7 +68,8 @@
         </div>
       </div>
     </nav>
-    <div class="main"><%- data.main %></div>
+    <div class="managerDiv"><%- data.manager %></div>
+    <div class="employeeDiv"><%- data.employees %></div>
   </body>
 </html>
 <%} %>
