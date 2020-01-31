@@ -1,3 +1,7 @@
+import inquirer = require('inquirer');
+
+const ui = new inquirer.ui.BottomBar();
+
 // Internal node package imports
 const fs = require('fs');
 const util = require('util');
@@ -15,67 +19,137 @@ const Manager = require('./lib/Manager');
 // const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
+let keepRunning = true;
+
+const engineerQues = [
+  {
+    message: 'Enter Engineers name: ',
+    name: 'name',
+    validate: (input: string) => {
+      if (input) return true;
+      else return false;
+    },
+  },
+  {
+    message: 'Enter his/her email: ',
+    name: 'email',
+    // validate: async (input: string) => {
+    //   const regex = RegExp('');
+    //   if (regex.test(input)) return true;
+    //   else return 'Please enter a valid email address!';
+    // },
+  },
+  {
+    message: 'Enter his/her Github id: ',
+    name: 'githubID',
+    validate: (input: string) => {
+      if (input) return true;
+      else return false;
+    },
+  },
+];
+
+const internQues = [
+  {
+    message: 'Enter Interns name: ',
+    name: 'name',
+    validate: (input: string) => {
+      if (input) return true;
+      else return false;
+    },
+  },
+  {
+    message: 'Enter his/her email: ',
+    name: 'email',
+    // validate: async (input: string) => {
+    //   const regex = RegExp('');
+    //   if (regex.test(input)) return true;
+    //   else return 'Please enter a valid email address!';
+    // },
+  },
+  {
+    message: 'Enter his/her school: ',
+    name: 'school',
+    validate: (input: string) => {
+      if (input) return true;
+      else return false;
+    },
+  },
+];
+
 // Main functional logic
 const init = async () => {
   let i = 0;
   const newEmployees = [];
-  while (i < 5) {
-    const team = await ask.prompt([
-      {
-        message: 'Enter your name: ',
-        name: 'name',
+
+  const manager = await ask.prompt([
+    {
+      message: 'Enter Managers name: ',
+      name: 'name',
+      validate: (input: string) => {
+        if (input) return true;
+        else return false;
       },
+    },
+    {
+      message: 'Enter his/her email: ',
+      name: 'email',
+      // validate: async (input: string) => {
+      //   const regex = RegExp('');
+      //   if (regex.test(input)) return true;
+      //   else return 'Please enter a valid email address!';
+      // },
+    },
+  ]);
+  newEmployees.push(
+    new Manager(
+      manager.name,
+      manager.email,
+      Math.floor(Math.random() * 100) + 1
+    )
+  );
+
+  ui.log.write('\nManager Logged!\n\n');
+
+  while (keepRunning) {
+    const employees = await ask.prompt([
       {
-        message: 'Enter your email: ',
-        name: 'email',
-      },
-      {
-        message: 'Whats your role: ',
+        message: 'Whats the employees role: ',
         name: 'role',
-        validate: async (input: string) => {
-          if (
-            input !== 'Engineer' &&
-            input !== 'Intern' &&
-            input !== 'Manager'
-          ) {
-            return 'Incorrect asnwer';
-          }
-          return true;
-        },
-      },
-      {
-        message: 'Github Username: ',
-        name: 'githubID',
+        type: 'list',
+        choices: ['Engineer', 'Intern', 'Done'],
       },
     ]);
-    switch (team.role) {
+
+    switch (employees.role) {
       case 'Engineer':
-        newEmployees.push(new Engineer(team.name, team.email, team.githubID));
+        const engineer = await inquirer.prompt(engineerQues);
+        engineer &&
+          newEmployees.push(
+            new Engineer(engineer.name, engineer.email, engineer.githubID)
+          );
         break;
       case 'Intern':
-        newEmployees.push(new Intern(team.name, team.email, 'LRHS'));
+        const intern = await inquirer.prompt(internQues);
+        intern &&
+          newEmployees.push(
+            new Intern(intern.name, intern.email, intern.school)
+          );
         break;
-      case 'Manager':
-        newEmployees.push(
-          new Manager(
-            team.name,
-            team.email,
-            Math.floor(Math.random() * 100) + 1
-          )
-        );
-        break;
+      case 'Done': 
+        keepRunning = false;
     }
     console.log(newEmployees);
-    i++;
   }
-  render(newEmployees);
+  ui.log.write('\nEmployees Logged!\n\n');
+  // render(newEmployees);
 };
 
 init();
 
 async function render(empArr: any[]) {
   try {
-    let html = await ejs.renderFile('./templates/engineer.ejs', {
+    let html = await ejs.renderFile('./templates/manager.ejs', {
       data: empArr,
     });
     const mainHtml = await ejs.renderFile('./templates/main.ejs', {

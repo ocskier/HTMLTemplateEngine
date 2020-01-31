@@ -1,0 +1,33 @@
+<% if(data) { %>
+<div class="uk-card uk-card-default uk-width-1-4@m" style="margin: 15px 5px;">
+  <div class="uk-card-header">
+    <div class="uk-grid-small uk-flex" uk-grid>
+      <div class="uk-width-auto">
+        <img
+          class="uk-border-circle"
+          width="80"
+          height="80"
+          src="https://loremflickr.com/90/90/person"
+        />
+      </div>
+      <div class="uk-width-expand" style="text-align: right;">
+        <h3 class="uk-card-title uk-margin-remove-bottom"><%= data.name %></h3>
+        <p class="uk-text-meta uk-margin-remove-top">
+          <%= data.getRole() %>
+        </p>
+      </div>
+      <span>
+        <%= data.officeNumber %>
+      </span>
+    </div>
+  </div>
+  <div class="uk-card-body">
+    <p></p>
+  </div>
+  <div class="uk-card-footer">
+    <a href="mailto:<%= data.email %>" class="uk-button uk-button-text"
+      ><%= data.email %></a
+    >
+  </div>
+</div>
+<% } %>
