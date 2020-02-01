@@ -1,1 +1,0 @@
-const Jon = new Employee('Jon', 'Senior Manager');

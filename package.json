@@ -8,9 +8,9 @@
     "test": "test"
   },
   "scripts": {
+    "prestart": "tsc",
     "test": "jest",
-    "tsc": "tsc",
-    "start": "tsc && node dist/app.js"
+    "start": "node dist/app.js"
   },
   "repository": {
     "type": "git",

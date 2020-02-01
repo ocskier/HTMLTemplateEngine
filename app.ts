@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const validator = require('validator');
 
-const ui = new inquirer.ui.BottomBar();
+// const ui = new inquirer.ui.BottomBar();
 
 // Internal node package imports
 const fs = require('fs');
@@ -20,7 +20,8 @@ const Manager = require('./lib/Manager');
 // const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
-let keepRunning = true;
+const newEmployees: any[] = [];
+let keepRunning: boolean = true;
 
 const engineerQues = [
   {
@@ -74,8 +75,7 @@ const internQues = [
 
 // Main functional logic
 const init = async () => {
-  let i = 0;
-  const newEmployees = [];
+  // let i = 0; Reserved for later use
 
   const manager = await ask.prompt([
     {
@@ -95,16 +95,21 @@ const init = async () => {
     },
   ]);
 
-  newEmployees.push(
-    new Manager(
-      manager.name,
-      manager.email,
-      Math.floor(Math.random() * 1000) + 1
-    )
-  );
+  manager &&
+    newEmployees.push(
+      new Manager(
+        manager.name,
+        manager.email,
+        Math.floor(Math.random() * 1000) + 1
+      )
+    ) &&
+    (await getSubordinates());
 
-  ui.log.write('\nManager Logged!\n\n');
+  // ui.log.write('\nManager Logged!\n\n');
+  render(newEmployees);
+};
 
+const getSubordinates = async () => {
   while (keepRunning) {
     const employees = await ask.prompt([
       {
@@ -132,13 +137,10 @@ const init = async () => {
         break;
       case 'Done':
         keepRunning = false;
+      // ui.log.write('\nEmployees Logged!\n\n');
     }
   }
-  ui.log.write('\nEmployees Logged!\n\n');
-  render(newEmployees);
 };
-
-init();
 
 async function render(empArr: any[]) {
   try {
@@ -146,10 +148,10 @@ async function render(empArr: any[]) {
       data: empArr[0],
     });
     let employeesHtml = '';
-    employeesHtml += await ejs.renderFile(`./templates/engineer.ejs`, {
+    employeesHtml += await ejs.renderFile('./templates/engineer.ejs', {
       data: empArr.filter(emp => emp.getRole() === 'Engineer'),
     });
-    employeesHtml += await ejs.renderFile(`./templates/intern.ejs`, {
+    employeesHtml += await ejs.renderFile('./templates/intern.ejs', {
       data: empArr.filter(emp => emp.getRole() === 'Intern'),
     });
     const mainHtml = await ejs.renderFile('./templates/main.ejs', {
@@ -158,10 +160,14 @@ async function render(empArr: any[]) {
         employees: employeesHtml,
       },
     });
-    await writeFile('dist/index.html', mainHtml, 'UTF-8');
+    await writeFile('./dist/index.html', mainHtml, 'UTF-8').then(() => {
+      console.log('\nFile Written!');
+    });
   } catch (error) {
     console.log(error);
   }
 }
+
+init();
 
 export {};
