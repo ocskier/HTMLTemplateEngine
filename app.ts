@@ -137,7 +137,8 @@ const getSubordinates = async () => {
         break;
       case 'Done':
         keepRunning = false;
-      // ui.log.write('\nEmployees Logged!\n\n');
+        // ui.log.write('\nEmployees Logged!\n\n');
+        break;
     }
   }
 };
