@@ -23,6 +23,24 @@ const writeFile = util.promisify(fs.writeFile);
 const newEmployees: any[] = [];
 let keepRunning: boolean = true;
 
+const managerQues = [
+  {
+    message: 'Enter Managers name: ',
+    name: 'name',
+    validate: (input: string) => {
+      return input != '';
+    },
+  },
+  {
+    message: 'Enter his/her email: ',
+    name: 'email',
+    validate: async (input: string) => {
+      if (validator.isEmail(input)) return true;
+      else return 'Please enter a valid email address!';
+    },
+  },
+];
+
 const engineerQues = [
   {
     message: 'Enter Engineers name: ',
@@ -77,23 +95,7 @@ const internQues = [
 const init = async () => {
   // let i = 0; Reserved for later use
 
-  const manager = await ask.prompt([
-    {
-      message: 'Enter Managers name: ',
-      name: 'name',
-      validate: (input: string) => {
-        return input != '';
-      },
-    },
-    {
-      message: 'Enter his/her email: ',
-      name: 'email',
-      validate: async (input: string) => {
-        if (validator.isEmail(input)) return true;
-        else return 'Please enter a valid email address!';
-      },
-    },
-  ]);
+  const manager = await ask.prompt(managerQues);
 
   manager &&
     newEmployees.push(
@@ -111,7 +113,7 @@ const init = async () => {
 
 const getSubordinates = async () => {
   while (keepRunning) {
-    const employees = await ask.prompt([
+    const { role } = await ask.prompt([
       {
         message: 'Whats the employees role: ',
         name: 'role',
@@ -120,7 +122,7 @@ const getSubordinates = async () => {
       },
     ]);
 
-    switch (employees.role) {
+    switch (role) {
       case 'Engineer':
         const engineer = await inquirer.prompt(engineerQues);
         engineer &&
