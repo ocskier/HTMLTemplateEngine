@@ -2,4 +2,4 @@
 
 A Node based html template generator using Inquirer
 
-![Alt text](https://user-images.githubusercontent.com/36890724/73633737-6af2ef80-462d-11ea-9c86-b02a82223ba1.jpg)
+![Employee Hierarchy](https://user-images.githubusercontent.com/36890724/73634091-60852580-462e-11ea-9275-1d0eeeca137a.png)
