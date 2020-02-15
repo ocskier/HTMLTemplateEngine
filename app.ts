@@ -20,16 +20,16 @@ const writeFile = util.promisify(fs.writeFile);
 const newEmployees: any[] = [];
 let keepRunning: boolean = true;
 
-const managerQues = [
+const mainQues = (employeeType: string) => [
   {
-    message: 'Enter Managers name: ',
+    message: `Enter ${employeeType} name: `,
     name: 'name',
     validate: (input: string) => {
       return input != '';
     },
   },
   {
-    message: 'Enter his/her email: ',
+    message: `Enter the ${employeeType} email: `,
     name: 'email',
     validate: async (input: string) => {
       if (validator.isEmail(input)) return true;
@@ -39,21 +39,7 @@ const managerQues = [
 ];
 
 const engineerQues = [
-  {
-    message: 'Enter Engineers name: ',
-    name: 'name',
-    validate: (input: string) => {
-      return input != '';
-    },
-  },
-  {
-    message: 'Enter his/her email: ',
-    name: 'email',
-    validate: async (input: string) => {
-      if (validator.isEmail(input)) return true;
-      else return 'Please enter a valid email address!';
-    },
-  },
+  ...mainQues(`engineer's`),
   {
     message: 'Enter his/her Github id: ',
     name: 'githubID',
@@ -64,21 +50,7 @@ const engineerQues = [
 ];
 
 const internQues = [
-  {
-    message: 'Enter Interns name: ',
-    name: 'name',
-    validate: (input: string) => {
-      return input != '';
-    },
-  },
-  {
-    message: 'Enter his/her email: ',
-    name: 'email',
-    validate: async (input: string) => {
-      if (validator.isEmail(input)) return true;
-      else return 'Please enter a valid email address!';
-    },
-  },
+  ...mainQues(`intern's`),
   {
     message: 'Enter his/her school: ',
     name: 'school',
@@ -92,7 +64,7 @@ const internQues = [
 const init = async () => {
   // let i = 0; Reserved for later use
 
-  const manager = await ask.prompt(managerQues);
+  const manager = await ask.prompt(mainQues(`manager's`));
 
   manager &&
     newEmployees.push(
