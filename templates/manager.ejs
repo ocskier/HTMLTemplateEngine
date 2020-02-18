@@ -1,5 +1,8 @@
 <% if(data) { %>
-<div class="uk-card uk-card-default uk-width-1-4@m" style="margin: 15px 5px;">
+<div
+  class="uk-card uk-card-default uk-width-1-4@m"
+  style="margin: 15px 5px;width: auto;"
+>
   <div class="uk-card-header">
     <div class="uk-grid-small uk-flex" uk-grid>
       <div class="uk-width-auto">
@@ -16,9 +19,14 @@
           <%= data.getRole() %>
         </p>
       </div>
-      <span>
-        <%= data.officeNumber %>
-      </span>
+      <div class="uk-card uk-card-body">
+        <div
+          class="uk-card-badge uk-label"
+          style="position: absolute;bottom: 0;right: 0;top: auto;"
+        >
+          Office: <%= data.officeNumber %>
+        </div>
+      </div>
     </div>
   </div>
   <div class="uk-card-body">
