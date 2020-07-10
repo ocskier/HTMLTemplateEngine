@@ -6,7 +6,6 @@ const util = require('util');
 const ask = require('inquirer');
 const ejs = require('ejs');
 const validator = require('validator');
-// const ui = new inquirer.ui.BottomBar();
 
 // Import the individual classes
 const Engineer = require('./lib/Engineer');
@@ -14,19 +13,18 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 //  Creating promises
-// const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 const newEmployees: any[] = [];
 let keepRunning: boolean = true;
 
+const validateInput = (input: string) => input != '';
+
 const mainQues = (employeeType: string) => [
   {
     message: `Enter ${employeeType} name: `,
     name: 'name',
-    validate: (input: string) => {
-      return input != '';
-    },
+    validate: validateInput,
   },
   {
     message: `Enter the ${employeeType} email: `,
@@ -43,9 +41,7 @@ const engineerQues = [
   {
     message: 'Enter his/her Github id: ',
     name: 'githubID',
-    validate: (input: string) => {
-      return input != '';
-    },
+    validate: validateInput,
   },
 ];
 
@@ -54,9 +50,7 @@ const internQues = [
   {
     message: 'Enter his/her school: ',
     name: 'school',
-    validate: (input: string) => {
-      return input != '';
-    },
+    validate: validateInput,
   },
 ];
 
@@ -76,7 +70,6 @@ const init = async () => {
     ) &&
     (await getSubordinates());
 
-  // ui.log.write('\nManager Logged!\n\n');
   render(newEmployees);
 };
 
@@ -108,7 +101,6 @@ const getSubordinates = async () => {
         break;
       case 'Done':
         keepRunning = false;
-        // ui.log.write('\nEmployees Logged!\n\n');
         break;
     }
   }
@@ -121,10 +113,10 @@ async function render(empArr: any[]) {
     });
     let employeesHtml = '';
     employeesHtml += await ejs.renderFile('./templates/engineer.ejs', {
-      data: empArr.filter(emp => emp.getRole() === 'Engineer'),
+      data: empArr.filter((emp) => emp.getRole() === 'Engineer'),
     });
     employeesHtml += await ejs.renderFile('./templates/intern.ejs', {
-      data: empArr.filter(emp => emp.getRole() === 'Intern'),
+      data: empArr.filter((emp) => emp.getRole() === 'Intern'),
     });
     const mainHtml = await ejs.renderFile('./templates/main.ejs', {
       data: {
@@ -133,7 +125,7 @@ async function render(empArr: any[]) {
       },
     });
     await writeFile('./dist/index.html', mainHtml, 'UTF-8').then(() => {
-      console.log('\nFile Written!');
+      console.log('\nFile Written!\n');
     });
   } catch (error) {
     console.log(error);
