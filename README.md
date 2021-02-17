@@ -6,6 +6,9 @@ A Node based html template generator using Inquirer
 
 ## Prerequisites
 
+<a href="https://nodejs.org/en/"><img width=80 height=80 src="./images/logo.svg"></a>
+
+
 ## Installation
 
 Use Node JS command line to install packages
