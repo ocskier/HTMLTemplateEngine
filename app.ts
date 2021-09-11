@@ -54,24 +54,31 @@ const internQues = [
   },
 ];
 
-// Main functional logic
-const init = async () => {
-  // let i = 0; Reserved for later use
-
-  const manager = await ask.prompt(mainQues(`manager's`));
-
-  manager &&
-    newEmployees.push(
-      new Manager(
-        manager.name,
-        manager.email,
-        Math.floor(Math.random() * 1000) + 1
-      )
-    ) &&
-    (await getSubordinates());
-
-  render(newEmployees);
-};
+const render = async (empArr: any[]) => {
+  try {
+    let managerHtml = await ejs.renderFile('./templates/manager.ejs', {
+      data: empArr[0],
+    });
+    let employeesHtml = '';
+    employeesHtml += await ejs.renderFile('./templates/engineer.ejs', {
+      data: empArr.filter((emp) => emp.getRole() === 'Engineer'),
+    });
+    employeesHtml += await ejs.renderFile('./templates/intern.ejs', {
+      data: empArr.filter((emp) => emp.getRole() === 'Intern'),
+    });
+    const mainHtml = await ejs.renderFile('./templates/main.ejs', {
+      data: {
+        manager: managerHtml,
+        employees: employeesHtml,
+      },
+    });
+    await writeFile('./dist/index.html', mainHtml, 'UTF-8').then(() => {
+      console.log('\nFile Written!\n');
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const getSubordinates = async () => {
   while (keepRunning) {
@@ -106,31 +113,24 @@ const getSubordinates = async () => {
   }
 };
 
-async function render(empArr: any[]) {
-  try {
-    let managerHtml = await ejs.renderFile('./templates/manager.ejs', {
-      data: empArr[0],
-    });
-    let employeesHtml = '';
-    employeesHtml += await ejs.renderFile('./templates/engineer.ejs', {
-      data: empArr.filter((emp) => emp.getRole() === 'Engineer'),
-    });
-    employeesHtml += await ejs.renderFile('./templates/intern.ejs', {
-      data: empArr.filter((emp) => emp.getRole() === 'Intern'),
-    });
-    const mainHtml = await ejs.renderFile('./templates/main.ejs', {
-      data: {
-        manager: managerHtml,
-        employees: employeesHtml,
-      },
-    });
-    await writeFile('./dist/index.html', mainHtml, 'UTF-8').then(() => {
-      console.log('\nFile Written!\n');
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}
+// Main functional logic
+const init = async () => {
+  // let i = 0; Reserved for later use
+
+  const manager = await ask.prompt(mainQues(`manager's`));
+
+  manager &&
+    newEmployees.push(
+      new Manager(
+        manager.name,
+        manager.email,
+        Math.floor(Math.random() * 1000) + 1
+      )
+    ) &&
+    (await getSubordinates());
+
+  render(newEmployees);
+};
 
 init();
 
