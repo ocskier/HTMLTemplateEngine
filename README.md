@@ -2,6 +2,8 @@
 
 A Node based html template generator using Inquirer
 
+https://user-images.githubusercontent.com/36890724/132960258-6fd6977e-819f-4ab5-9622-8fedeeb6ae4f.mp4
+
 ![Employee Hierarchy](./images/html-template-ss.PNG)
 
 ## Prerequisites
