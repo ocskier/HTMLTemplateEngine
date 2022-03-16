@@ -1,11 +1,25 @@
+const { prompt } = require('inquirer');
+
 const Employee = require('./Employee');
+const { validateInput } = require('../utils/helpers');
 
 class Manager extends Employee {
-  officeNumber: number;
+  officeNum: number;
 
-  constructor(name: string, email: string, num: number) {
-    super(name, email);
-    this.officeNumber = num;
+  constructor() {
+    super();
+    this.officeNumber = null;
+  }
+  async getManagerInfo() {
+    const { officeNum } = await prompt([
+      {
+        message: `Enter manager's office number: `,
+        name: 'officeNum',
+        validate: validateInput,
+      },
+    ]);
+    this.officeNum = officeNum;
+    return;
   }
   getRole() {
     return 'Manager';

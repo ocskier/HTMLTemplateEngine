@@ -1,11 +1,25 @@
+const { prompt } = require('inquirer');
+
 const Employee = require('./Employee');
+const { validateInput } = require('../utils/helpers');
 
 class Intern extends Employee {
   school: string;
 
-  constructor(name: string, email: string, school: string) {
-    super(name, email);
+  constructor() {
+    super();
+    this.school = '';
+  }
+  async getInternInfo() {
+    const { school } = await prompt([
+      {
+        message: 'Enter his/her school: ',
+        name: 'school',
+        validate: validateInput,
+      },
+    ]);
     this.school = school;
+    return;
   }
   getSchool() {
     return this.school;

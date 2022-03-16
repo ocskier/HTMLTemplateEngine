@@ -3,9 +3,8 @@ const fs = require('fs');
 const util = require('util');
 
 // External package imports
-const ask = require('inquirer');
 const ejs = require('ejs');
-const validator = require('validator');
+const { prompt } = require('inquirer');
 
 // Import the individual classes
 const Engineer = require('./lib/Engineer');
@@ -18,64 +17,22 @@ const writeFile = util.promisify(fs.writeFile);
 const newEmployees: any[] = [];
 let keepRunning: boolean = true;
 
-const validateInput = (input: string) => input != '';
-
-const mainQues = (employeeType: string) => [
-  {
-    message: `Enter ${employeeType} name: `,
-    name: 'name',
-    validate: validateInput,
-  },
-  {
-    message: `Enter the ${employeeType} email: `,
-    name: 'email',
-    validate: async (input: string) => {
-      if (validator.isEmail(input)) return true;
-      else return 'Please enter a valid email address!';
-    },
-  },
-];
-
-const engineerQues = [
-  ...mainQues(`engineer's`),
-  {
-    message: 'Enter his/her Github id: ',
-    name: 'githubID',
-    validate: validateInput,
-  },
-];
-
-const internQues = [
-  ...mainQues(`intern's`),
-  {
-    message: 'Enter his/her school: ',
-    name: 'school',
-    validate: validateInput,
-  },
-];
-
 // Main functional logic
 const init = async () => {
   // let i = 0; Reserved for later use
 
-  const manager = await ask.prompt(mainQues(`manager's`));
+  const manager = new Manager();
+  await manager.getEmpInfo(`manager's`);
+  await manager.getManagerInfo();
 
-  manager &&
-    newEmployees.push(
-      new Manager(
-        manager.name,
-        manager.email,
-        Math.floor(Math.random() * 1000) + 1
-      )
-    ) &&
-    (await getSubordinates());
+  manager && newEmployees.push(manager) && (await getSubordinates());
 
   render(newEmployees);
 };
 
 const getSubordinates = async () => {
   while (keepRunning) {
-    const { role } = await ask.prompt([
+    const { role } = await prompt([
       {
         message: 'Whats the employees role: ',
         name: 'role',
@@ -86,18 +43,16 @@ const getSubordinates = async () => {
 
     switch (role) {
       case 'Engineer':
-        const engineer = await ask.prompt(engineerQues);
-        engineer &&
-          newEmployees.push(
-            new Engineer(engineer.name, engineer.email, engineer.githubID)
-          );
+        const engineer = new Engineer();
+        await engineer.getEmpInfo(`engineer's`);
+        await engineer.getEngineerInfo();
+        engineer && newEmployees.push(engineer);
         break;
       case 'Intern':
-        const intern = await ask.prompt(internQues);
-        intern &&
-          newEmployees.push(
-            new Intern(intern.name, intern.email, intern.school)
-          );
+        const intern = new Intern();
+        await intern.getEmpInfo(`intern's`);
+        await intern.getInternInfo();
+        intern && newEmployees.push(intern);
         break;
       case 'Done':
         keepRunning = false;
